@@ -7,7 +7,7 @@ const Login = ({ setToken }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+    const response = await axios.post('https://valeal.netlify.app/api/auth/login', { username, password });
     setToken(response.data.token);
   };
 
