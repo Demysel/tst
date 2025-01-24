@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 
-const Login = ({ setToken }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://delmissierval:delmissierval@planning.qja6u.mongodb.net/?retryWrites=true&w=majority&appName=Planning";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await axios.post('https://valeal.netlify.app/api/auth/login', { username, password });
-    setToken(response.data.token);
-  };
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Login</button>
-    </form>
-  );
-};
-
-export default Login;
-
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
