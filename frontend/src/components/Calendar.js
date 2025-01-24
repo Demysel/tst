@@ -6,7 +6,7 @@ const Calendar = ({ token }) => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await axios.get('http://localhost:5000/api/events', {
+      const response = await axios.get('https://valeal.netlify.app/api/events', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents(response.data);
